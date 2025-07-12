@@ -1,7 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 cd "$(dirname "$0")"
-#rm -rf data || true
 mkdir -p data/sequences data/predictions data/output || true
 python3 ./gen_seq.py > ./data/sequences/test.fa
 docker run \
