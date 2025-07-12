@@ -6,8 +6,16 @@ import matplotlib.image as mpimg
 fig = plt.figure()
 ax1 = fig.add_subplot(1,1,1)
 
+def gen_image():
+    cmd = 'bash -c ./gen_image.sh'
+    if os.name == 'nt':
+        cmd = f'wsl.exe {cmd}'
+    code = os.system(cmd)
+    if code != 0:
+        raise Exception("Error generating image")
+
 def animate_coords(i):
-    os.system("wsl.exe bash ./generate_image.sh")
+    gen_image()
     with open('data/output/test/results/json/processed.txt', 'r') as f:
         lines = f.read().strip().split('\n')
     ax1.clear()
@@ -25,7 +33,7 @@ def animate_coords(i):
     ax1.set_ylim(vmin, vmax)
 
 def animate_png(i):
-    os.system("wsl.exe bash ./generate_image.sh")
+    gen_image()
     img = mpimg.imread('data/output/test/results/svg/random_sequence.colored.png')
     ax1.clear()
     ax1.imshow(img)
